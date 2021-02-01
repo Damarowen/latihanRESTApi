@@ -1,13 +1,13 @@
 
 [
     {
-        "id": "1",
         "nama": "Damar Oen Isyai",
-        "Jurusan": "IPA"
+        "jurusan": "IPA",
+        "email": "anak@gmail.com"
     },
     {
-        "id": "2",
         "nama": "Nadiailhaq Nursabrina",
-        "Jurusan": "IPS"
+        "jurusan": "IPS",
+        "email": "amuba@gmail.com"
     }
 ]
