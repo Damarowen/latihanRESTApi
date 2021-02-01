@@ -10,7 +10,16 @@ connectDB();
 // body parser
 app.use(express.json());
 
-//* GET All Mahasiswa
+//* error handling
+const validation = {
+    isEmpty: obj => {
+        return Object.entries(obj).length === 0;
+    },
+
+}
+
+
+//* */ GET All Mahasiswa
 //* /mahasiswa
 app.get('/mahasiswa', async (req, res) => {
 
@@ -47,13 +56,33 @@ app.get('/mahasiswa/:id', async (req, res) => {
 //* /mahasiswa
 app.post('/mahasiswa/', async (req, res) => {
 
-    const data = await Mahasiswa.create(req.body)
+    try {
 
-    res.status(200).json({
-        success: true,
-        data: data
-    });
-    console.log('Success Post')
+        //* Validate whether body is empty or not
+        if (validation.isEmpty(req.body)) {
+            console.log(validation.isEmpty(req.body))
+            return res.status(400).json({
+                error: 'Request body is empty'
+            });
+        }
+
+        const data = await Mahasiswa.create(req.body)
+
+        res.status(200).json({
+            success: true,
+            data: data
+        });
+        console.log('Success Post')
+    } catch(err){
+        //* trigger mongoose validation from schema
+        if (err.name === 'ValidationError') {
+            const message = Object.values(err.errors).map(val => val.message);
+            return res.status(400).json({
+                error: message
+            });
+        }
+    }
+
 })
 
 //* EDIT SINGLE Mahasiswa
@@ -64,9 +93,9 @@ app.put('/mahasiswa/:id', async (req, res) => {
         new: true,
         runValidators: true
     })
-    
-    if(!data){
-        res.status(404).json({
+
+    if (!data) {
+        res.status(400).json({
             success: false,
             data: null
         });
@@ -87,8 +116,8 @@ app.delete('/mahasiswa/:id', async (req, res) => {
         id: id
     })
 
-    if(!data){
-        res.status(404).json({
+    if (!data) {
+        res.status(400).json({
             success: false,
             data: null
         });

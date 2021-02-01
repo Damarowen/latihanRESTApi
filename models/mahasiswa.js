@@ -4,7 +4,10 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const MahasiswaSchema = new mongoose.Schema({
     id: Number,
-    nama: String,
+    nama: {
+        type: String,
+        required: [true, 'Please add a description'],
+    },
     jurusan: String,
     email: String
 }, {
