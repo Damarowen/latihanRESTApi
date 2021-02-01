@@ -1,6 +1,5 @@
 const fs = require('fs');
 const connectDB = require('./database')
-
 const Mahasiswa = require('./models/mahasiswa')
 
 connectDB();

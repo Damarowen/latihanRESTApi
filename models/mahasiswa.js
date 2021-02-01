@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 
 const MahasiswaSchema = new mongoose.Schema({
-    
+    id: Number,
     nama: String,
     jurusan: String,
     email: String
@@ -9,4 +11,8 @@ const MahasiswaSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('Mahasiswa', MahasiswaSchema)
+//*auto increment ID
+MahasiswaSchema.plugin(AutoIncrement, {inc_field: 'id'});
+
+
+module.exports = mongoose.model('Mahasiswa', MahasiswaSchema, 'Mahasiswa')
